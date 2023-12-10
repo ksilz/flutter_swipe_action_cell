@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
@@ -184,6 +186,11 @@ class _SwipeActionPageState extends State<SwipeActionPage> {
     return SwipeActionCell(
       controller: controller,
       index: index,
+
+      closeAfterOpen: true,
+      onSwipeEnd: () {
+        log('Swipe ended');
+      },
 
       // Required!
       key: ValueKey(list[index]),

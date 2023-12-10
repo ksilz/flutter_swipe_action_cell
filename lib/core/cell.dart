@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -68,6 +69,10 @@ class SwipeActionCell extends StatefulWidget {
   /// 代表是否能够侧滑交互(如果你只想用编辑模式而不需要侧滑）
   final bool isDraggable;
 
+  final bool closeAfterOpen;
+
+  final Function()? onSwipeEnd;
+
   /// Background color for cell and def value = Theme.of(context).scaffoldBackgroundColor)
   ///
   /// 整个cell控件的背景色 默认是Theme.of(context).scaffoldBackgroundColor
@@ -131,6 +136,8 @@ class SwipeActionCell extends StatefulWidget {
     required Key key,
     required this.child,
     this.trailingActions,
+    this.closeAfterOpen = false,
+    this.onSwipeEnd,
     this.leadingActions,
     this.isDraggable = true,
     this.closeWhenScrolling = true,
@@ -658,6 +665,12 @@ class SwipeActionCellState extends State<SwipeActionCell>
             .fire(PullLastButtonEvent(isPullingOut: false));
       }
     }
+
+    if (widget.closeAfterOpen) {
+      closeWithAnim();
+
+      if (widget.onSwipeEnd != null) widget.onSwipeEnd!();
+    }
   }
 
   /// When nestedAction is open ,adjust currentOffset if nestedWidth > currentOffset
@@ -875,7 +888,9 @@ class SwipeActionCellState extends State<SwipeActionCell>
                   width = constraints.maxWidth;
                   // Action buttons
                   final bool shouldHideActionButtons =
-                      currentOffset.dx == 0.0 || editController.isAnimating || editing;
+                      currentOffset.dx == 0.0 ||
+                          editController.isAnimating ||
+                          editing;
                   final Widget trailing = shouldHideActionButtons
                       ? const SizedBox()
                       : _buildTrailingActionButtons();
