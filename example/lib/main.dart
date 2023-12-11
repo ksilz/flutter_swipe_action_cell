@@ -188,9 +188,7 @@ class _SwipeActionPageState extends State<SwipeActionPage> {
       index: index,
 
       closeAfterOpen: true,
-      onSwipeEnd: () {
-        log('Swipe ended');
-      },
+      onSwipeEnd: () {},
 
       // Required!
       key: ValueKey(list[index]),
@@ -200,27 +198,26 @@ class _SwipeActionPageState extends State<SwipeActionPage> {
       selectedForegroundColor: Colors.black.withAlpha(30),
       trailingActions: [
         SwipeAction(
-            title: "delete",
-            performsFirstActionWithFullSwipe: true,
-            nestedAction: SwipeNestedAction(title: "confirm"),
-            onTap: (handler) async {
-              await handler(true);
-
-              list.removeAt(index);
-              setState(() {});
-            }),
-        SwipeAction(title: "action2", color: Colors.grey, onTap: (handler) {}),
-      ],
-      leadingActions: [
-        SwipeAction(
-            title: "delete",
-            onTap: (handler) async {
-              await handler(true);
-              list.removeAt(index);
-              setState(() {});
-            }),
-        SwipeAction(
-            title: "action3", color: Colors.orange, onTap: (handler) {}),
+          onTap: (CompletionHandler handler) async {},
+          widthSpace: 35.0,
+          color: Colors.transparent,
+          content: Container(
+            decoration: const BoxDecoration(
+              color: Colors.black12,
+              shape: BoxShape.circle,
+            ),
+            margin: const EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.all(3.0),
+            child: const Directionality(
+              textDirection: TextDirection.ltr,
+              child: Icon(
+                Icons.reply_rounded,
+                color: Colors.grey,
+                size: 16.0,
+              ),
+            ),
+          ),
+        ),
       ],
       child: GestureDetector(
         onTap: () {

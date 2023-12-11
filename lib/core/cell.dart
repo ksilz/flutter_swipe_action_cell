@@ -592,6 +592,21 @@ class SwipeActionCellState extends State<SwipeActionCell>
   }
 
   void _onHorizontalDragEnd(DragEndDetails details) async {
+    if (widget.closeAfterOpen) {
+      if (whenTrailingActionShowing) {
+        if (-currentOffset.dx >= maxTrailingPullWidth / 4) {
+          if (widget.onSwipeEnd != null) widget.onSwipeEnd!();
+        }
+      } else if (whenLeadingActionShowing) {
+        if (currentOffset.dx >= maxLeadingPullWidth / 4) {
+          if (widget.onSwipeEnd != null) widget.onSwipeEnd!();
+        }
+      }
+
+      closeWithAnim();
+      return;
+    }
+
     if (editing) return;
 
     final bool canFullSwipe = leadingActionsCount > 0 &&
@@ -664,12 +679,6 @@ class SwipeActionCellState extends State<SwipeActionCell>
             .bus
             .fire(PullLastButtonEvent(isPullingOut: false));
       }
-    }
-
-    if (widget.closeAfterOpen) {
-      closeWithAnim();
-
-      if (widget.onSwipeEnd != null) widget.onSwipeEnd!();
     }
   }
 
