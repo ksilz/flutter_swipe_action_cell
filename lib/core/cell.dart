@@ -460,7 +460,7 @@ class SwipeActionCellState extends State<SwipeActionCell>
 
   void _addScrollListener() {
     if (widget.closeWhenScrolling) {
-      scrollPosition = Scrollable.maybeOf(context)?.position;
+      scrollPosition = Scrollable.of(context)?.position;
       scrollPosition?.isScrollingNotifier.addListener(_scrollListener);
     }
   }
@@ -789,7 +789,7 @@ class SwipeActionCellState extends State<SwipeActionCell>
 
   Map<Type, GestureRecognizerFactory> get gestures {
     final DeviceGestureSettings? gestureSettings =
-        MediaQuery.maybeOf(context)?.gestureSettings;
+        MediaQuery.of(context)?.gestureSettings;
     return {
       TapGestureRecognizer:
           GestureRecognizerFactoryWithHandlers<TapGestureRecognizer>(
